@@ -2,12 +2,13 @@ const cityInput = document.querySelector(".city-input");
 const searchButton = document.querySelector(".search-btn");
 const locationButton = document.querySelector(".location-btn");
 const currentWeatherDiv = document.querySelector(".current-weather");
-const weatherCardsDiv = document.querySelector(".weather-cards");
+const weatherBlockDiv = document.querySelector(".weather-blocks");
 
-const API_KEY = "23c3d2d90a9f18101f425c45b6c3555b"; // API key for OpenWeatherMap API
+const API_KEY = "23c3d2d90a9f18101f425c45b6c3555b"; // API key from openweather
 
+//coded with help of a meeting coding gruop I atten on weekens Coders of Tampa (app called meetups)
 const createWeatherCard = (cityName, weatherItem, index) => {
-    if(index === 0) { // HTML for the main weather card
+    if(index === 0) { 
         return `<div class="details">
                     <h2>${cityName} (${weatherItem.dt_txt.split(" ")[0]})</h2>
                     <h6>Temperature: ${(weatherItem.main.temp - 273.15).toFixed(2)}°C</h6>
@@ -18,7 +19,7 @@ const createWeatherCard = (cityName, weatherItem, index) => {
                     <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@4x.png" alt="weather-icon">
                     <h6>${weatherItem.weather[0].description}</h6>
                 </div>`;
-    } else { // HTML for the other five day forecast card
+    } else { 
         return `<li class="card">
                     <h3>(${weatherItem.dt_txt.split(" ")[0]})</h3>
                     <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@4x.png" alt="weather-icon">
@@ -45,7 +46,7 @@ const getWeatherDetails = (cityName, latitude, longitude) => {
         // Clearing previous weather data
         cityInput.value = "";
         currentWeatherDiv.innerHTML = "";
-        weatherCardsDiv.innerHTML = "";
+        weatherBlockDiv.innerHTML = "";
 
         // Creating weather cards and adding them to the DOM
         fiveDaysForecast.forEach((weatherItem, index) => {
@@ -53,11 +54,11 @@ const getWeatherDetails = (cityName, latitude, longitude) => {
             if (index === 0) {
                 currentWeatherDiv.insertAdjacentHTML("beforeend", html);
             } else {
-                weatherCardsDiv.insertAdjacentHTML("beforeend", html);
+                weatherBlockDiv.insertAdjacentHTML("beforeend", html);
             }
         });        
     }).catch(() => {
-        alert("An error occurred while fetching the weather forecast!");
+        alert("An error occurred while optaining the forecast!");
     });
 }
 
@@ -72,7 +73,7 @@ const getCityCoordinates = () => {
         const { lat, lon, name } = data[0];
         getWeatherDetails(name, lat, lon);
     }).catch(() => {
-        alert("An error occurred while fetching the coordinates!");
+        alert("An error occurred while optaining the coordinates!");
     });
 }
 
@@ -86,7 +87,7 @@ const getUserCoordinates = () => {
                 const { name } = data[0];
                 getWeatherDetails(name, latitude, longitude);
             }).catch(() => {
-                alert("An error occurred while fetching the city name!");
+                alert("An error occurred while optaining the city!");
             });
         },
         error => { // Show alert if user denied the location permission
